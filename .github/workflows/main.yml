@@ -1,17 +1,18 @@
 name: Main workflow
 on: push
 env:
-  github_username: ${{ github.actor}}
-  docker_username: SirStehn
-  github_password: ${{ secrets.GITHUB_TOKEN}}
+  github_username: sirstehn
+  docker_username: sirstehn
+  github_password: ${{ secrets.GITHUB_TOKEN }}
   GIT_COMMIT: ${{ github.sha }}
+
 jobs:
   Build:
     runs-on: ubuntu-latest
     container: gradle:6-jdk11
     steps:
       - name: Clone down repository
-        uses: actions/checkout@v4       
+        uses: actions/checkout@v4        
       - name: Build application
         run: ci/build-app.sh
       - name: Test
@@ -22,6 +23,7 @@ jobs:
           name: code
           path: .
           include-hidden-files: true
+
   Linting:
     runs-on: ubuntu-latest
     needs: [Build]
@@ -38,6 +40,7 @@ jobs:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DISABLE_ERRORS: true
+
   Docker-image:
     runs-on: ubuntu-latest
     needs: [Build]
