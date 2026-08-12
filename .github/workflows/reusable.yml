@@ -1,0 +1,21 @@
+name: Reusable Workflow
+
+on:
+  workflow_call:
+    # (Optional) Inputs passed from the calling workflow
+    inputs:
+      environment:
+        required: false
+        type: string
+        default: 'staging'
+    # (Optional) Secrets passed from the calling workflow
+    secrets:
+      token:
+        required: false
+
+jobs:
+  reusable-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print input variable
+        run: echo "Running in environment ${{ inputs.environment }}"
